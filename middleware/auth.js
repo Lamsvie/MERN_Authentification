@@ -1,13 +1,13 @@
 import jwt from "jsonwebtoken";
 
 export const auth = (req, res, next) =>{
-    //recuperer le token
-    const token = req.headers.token
+    //recuperer le token    
     
-
+    const token = req.headers.authorization
     //si token exist pas
     if (!token) {
         res.status(401).json({msg: "Non autorisée!!"})
+        
     }
 
     //si exist et valide next sinon "return pas info incorect"
@@ -17,6 +17,8 @@ export const auth = (req, res, next) =>{
             userId: decodetoken.userid,
             userRole: decodetoken.userrole
         }
+        
+        
         
         next()
       

@@ -13,11 +13,17 @@ const App = express()
 config({path: "./config/config.env"})
 
 dbConnect()
-
+App.use((req, res, next) => {
+    res.setHeader('Access-Control-Allow-Origin', '*');
+    res.setHeader('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content, Accept, Content-Type, Authorization');
+    res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, PATCH, OPTIONS');
+    next();
+  });
 App.use(express.json())
 App.use(bodyParser.urlencoded())
+
 App.use("/api/auth", AuthRoutes)
-App.use('/api/categories', auth, authorize("Admin"), categoryRouter)
-App.use('/api/products', productRoute)
+App.use('/api/categories', auth, categoryRouter)
+App.use('/api/products', auth, productRoute)
 
 export default App;
